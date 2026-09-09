@@ -66,5 +66,33 @@ jobs:
             exit 1
           fi
 
+      - name: Keep Bible Studier active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_BIBLESTUDIER}}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_BIBLESTUDIER_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_BIBLESTUDIER_KEY }}")
+
+          echo "Bible Studier response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "Bible Studier request failed."
+            exit 1
+          fi
+
+      - name: Keep Shipfolio active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_SHIPFOLIO}}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_SHIPFOLIO }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SHIPFOLIO }}")
+
+          echo "Shipfolio response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "Shipfolio request failed."
+            exit 1
+          fi
+
       - name: All projects checked
-        run: echo "All 4 Supabase projects were successfully checked."
+        run: echo "All 6 Supabase projects were successfully checked."
