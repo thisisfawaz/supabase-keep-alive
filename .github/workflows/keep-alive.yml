@@ -1,0 +1,70 @@
+name: Keep Supabase Projects Active
+
+on:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Keep Workbox active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_WORKBOX }}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_WORKBOX_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_WORKBOX_KEY }}")
+
+          echo "Workbox response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "Workbox request failed."
+            exit 1
+          fi
+
+      - name: Keep SkipLine active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_SKIPLINE }}/rest/v1/leads?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_SKIPLINE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SKIPLINE_KEY }}")
+
+          echo "SkipLine response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "SkipLine request failed."
+            exit 1
+          fi
+
+      - name: Keep Banner active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_BANNER }}/rest/v1/campaigns?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_BANNER_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_BANNER_KEY }}")
+
+          echo "Banner response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "Banner request failed."
+            exit 1
+          fi
+
+      - name: Keep This Is Fawaz active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_THISISFAWAZPROJECT }}/rest/v1/keep_alive?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_THISISFAWAZPROJECT_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_THISISFAWAZPROJECT_KEY }}")
+
+          echo "This Is Fawaz response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "This Is Fawaz request failed."
+            exit 1
+          fi
+
+      - name: All projects checked
+        run: echo "All 4 Supabase projects were successfully checked."
