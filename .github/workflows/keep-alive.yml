@@ -108,5 +108,19 @@ jobs:
             exit 1
           fi
 
+      - name: Keep Timer active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_TIMER}}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_TIMER_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_TIMER_KEY }}")
+
+          echo "Positioned response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "Timer request failed."
+            exit 1
+          fi
+
       - name: All projects checked
-        run: echo "All 7 Supabase projects were successfully checked."
+        run: echo "All 8 Supabase projects were successfully checked."
