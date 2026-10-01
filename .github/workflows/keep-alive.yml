@@ -85,7 +85,7 @@ jobs:
           response=$(curl -s -o /dev/null -w "%{http_code}" \
             "${{ secrets.SUPABASE_SHIPFOLIO}}/rest/v1/profiles?select=id&limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_SHIPFOLIO }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_SHIPFOLIO }}")
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SHIPFOLIO_KEY }}")
 
           echo "Shipfolio response: $response"
 
@@ -99,7 +99,7 @@ jobs:
           response=$(curl -s -o /dev/null -w "%{http_code}" \
             "${{ secrets.SUPABASE_POSITIONED}}/rest/v1/Admin?select=id&limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_POSITIONED }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_POSITIONED }}")
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_POSITIONED_KEY }}")
 
           echo "Positioned response: $response"
 
