@@ -115,7 +115,7 @@ jobs:
             -H "apikey: ${{ secrets.SUPABASE_TIMER_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_TIMER_KEY }}")
 
-          echo "Positioned response: $response"
+          echo "Timer response: $response"
 
           if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
             echo "Timer request failed."
