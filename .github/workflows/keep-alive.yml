@@ -79,7 +79,7 @@ jobs:
             echo "Bible Studier request failed."
             exit 1
           fi
-
+          
       - name: Keep Shipfolio active
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -93,8 +93,8 @@ jobs:
             echo "Shipfolio request failed."
             exit 1
           fi
-
-        - name: Keep Positioned active
+          
+      - name: Keep Positioned active
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" \
             "${{ secrets.SUPABASE_POSITIONED}}/rest/v1/Admin?select=id&limit=1" \
