@@ -94,5 +94,19 @@ jobs:
             exit 1
           fi
 
+        - name: Keep Positioned active
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_POSITIONED}}/rest/v1/Admin?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_POSITIONED }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_POSITIONED }}")
+
+          echo "Positioned response: $response"
+
+          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
+            echo "Positioned request failed."
+            exit 1
+          fi
+
       - name: All projects checked
-        run: echo "All 6 Supabase projects were successfully checked."
+        run: echo "All 7 Supabase projects were successfully checked."
