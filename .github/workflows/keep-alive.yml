@@ -69,7 +69,7 @@ jobs:
       - name: Keep Bible Studier active
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" \
-            "${{ secrets.SUPABASE_BIBLESTUDIER}}/rest/v1/profiles?select=id&limit=1" \
+            "${{ secrets.SUPABASE_BIBLESTUDIER}}/rest/v1/devotions?select=id&limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_BIBLESTUDIER_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_BIBLESTUDIER_KEY }}")
 
